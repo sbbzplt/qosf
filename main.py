@@ -19,17 +19,18 @@ class Graph:
 
 
 class Edge:
-    def __init__(self, start_node, end_node):
+    def __init__(self, start_node, end_node, weight):
         self.start_node = start_node
         self.end_node = end_node
+        self.weight = weight
 
 
-set_edges = [Edge(0, 1), Edge(1, 2), Edge(2, 3), Edge(3, 4)]
+set_edges = [Edge(0, 1, 0.6), Edge(1, 2, 0.3), Edge(2, 3, 0.2), Edge(3, 4, 0.4)]
 
 G = nx.Graph()
 
 for z in set_edges:
-    G.add_edge(str(z.start_node), str(z.end_node))
+    G.add_edge(str(z.start_node), str(z.end_node), weight=z.weight)
 
 nx.draw(G)
 plt.savefig('graph.png')
