@@ -1,7 +1,10 @@
+import numpy as np
+
+
 def get_ground_state(num_qubits):
     q = list([0 for _ in range(2 ** num_qubits - 1)])
     q.insert(0, 1)
-    return q
+    return np.array(q)
 
 
 def get_operator(total_qubits, gate_unitary, target_qubits):
