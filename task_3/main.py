@@ -2,22 +2,25 @@ import numpy as np
 
 
 def get_ground_state(num_qubits):
-    q = list([0 for _ in range(2 ** num_qubits - 1)])
-    q.insert(0, 1)
+    q = list([0. for _ in range(2 ** num_qubits - 1)])
+    q.insert(0, 1.)
     return np.array(q)
 
 
 def get_operator(total_qubits, gate_unitary, target_qubits):
     # return unitary operator of size 2**n x 2**n for given gate and target qubits
-    return
+
+
+    # TODO: replace return state with actual operator.
+    return np.identity(2 ** total_qubits)
 
 
 def run_program(initial_state, program):
-    # read program, and for each gate:
-    #   - calculate matrix operator
-    #   - multiply state with operator
-    # return final state
-    return
+    n = int(np.log2(len(initial_state)))
+    for line in program:
+        unitary_operator = get_operator(n, line["gate"], line["target"])
+        initial_state = np.dot(initial_state, unitary_operator)
+    return initial_state
 
 
 def measure_all(state_vector):
