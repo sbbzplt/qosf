@@ -51,8 +51,9 @@ def run_program(initial_state, program):
 
 
 def measure_all(state_vector):
-    # choose element from state_vector using weighted random and return it's index
-    return
+    from numpy.random import choice
+    draw = choice([i for i in range(len(state_vector))], 1, p=state_vector ** 2)
+    return int(draw)
 
 
 def get_counts(state_vector, num_shots):
@@ -65,4 +66,42 @@ def get_counts(state_vector, num_shots):
     #      ...
     #   }
     # (only for elements which occoured - returned from measure_all)
-    return
+    measurements = [0 for i in range(len(state_vector))]
+    for _ in range(num_shots):
+        measure = measure_all(state_vector)
+        measurements[measure] += 1
+    dummy = {}
+    for i, measure in enumerate(measurements):
+        dummy['{0:08b}'.format(i)] = measure
+    return dummy
+
+
+my_circuit = [
+{ "gate": "h", "target": [0] },
+{ "gate": "cx", "target": [0, 1] }
+]
+
+
+# Create "quantum computer" with 2 qubits (this is actually just a vector :) )
+
+my_qpu = get_ground_state(2)
+
+
+# Run circuit
+
+final_state = run_program(my_qpu, my_circuit)
+
+
+# Read results
+
+counts = get_counts(final_state, 1000)
+
+print(counts)
+
+# Should print something like:
+# {
+#   "00": 502,
+#   "11": 498
+# }
+
+# Voila!
